@@ -31,18 +31,18 @@ jobs:
       - name: Generate PDF from CV
         run: rendercv render cv.yaml
 
-      - name: Copy PDF to examples folder
+      - name: Copy PDF to public/uploads folder
         run: |
-          mkdir -p examples
+          mkdir -p public/uploads
           if [ -f "rendercv_output/cv.pdf" ]; then
-            cp rendercv_output/cv.pdf examples/cv.pdf
+            cp rendercv_output/cv.pdf public/uploads/resume.pdf
           elif [ -f "rendercv_output/$(basename cv.yaml .yaml).pdf" ]; then
-            cp "rendercv_output/$(basename cv.yaml .yaml).pdf" examples/cv.pdf
+            cp "rendercv_output/$(basename cv.yaml .yaml).pdf" public/uploads/resume.pdf
           else
             # Find the generated PDF file
             PDF_FILE=$(find rendercv_output -name "*.pdf" -type f | head -n 1)
             if [ -n "$PDF_FILE" ]; then
-              cp "$PDF_FILE" examples/cv.pdf
+              cp "$PDF_FILE" public/uploads/resume.pdf
             else
               echo "Error: No PDF file found in rendercv_output"
               exit 1
@@ -56,7 +56,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add examples/cv.pdf
+          git add public/uploads/resume.pdf
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
