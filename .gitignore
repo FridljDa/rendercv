@@ -23,3 +23,6 @@ Thumbs.db
 # Allow example files
 !examples/*.pdf
 !examples/*.yaml
+
+# Allow public uploads
+!public/uploads/resume.pdf
